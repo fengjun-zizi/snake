@@ -119,7 +119,8 @@ class MyGame():
         #这是把格子坐标转换成屏幕像素文字
         self.screen.fill (color1 , rect) #在矩形区域上用color1 颜色填充，也就是画出在外层的方块
         if color2 : #如果设置了第二种（从color2，就在原来的矩形内，再画一个稍微缩小一点的矩形，颜色是color2）
-            self.screen.fill(color2, rect.inflate(-4, -4))
+            self.screen.fill(color2, rect.inflate(-4, -4))  # rect.inflate()这个函数是什么意思
+            # rect.inflate()这个函数会返回一个放大或者缩小的新矩阵
 
 
     def quit(self) : 
