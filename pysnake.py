@@ -1,4 +1,5 @@
 from apple import * 
+from banana import * 
 from settings import * 
 from snake_demo import *
 from snake import *
@@ -20,9 +21,12 @@ class PySnake(MyGame) :
         
         self.prepare_background()
         self.apple_counter = 0 
+        self.banana_counter = 0 
         self.hightest_score = 0 
+       
         self.snake = Snake(self)
         self.apple = Apple(self)
+        self.banana = Banana(self)
 
         self.add_key_binding(KEY_UP , self.snake.turn , direction = UP )
         self.add_key_binding(KEY_DOWN, self.snake.turn, direction=DOWN)
@@ -45,14 +49,20 @@ class PySnake(MyGame) :
     def restart(self) : 
         if not self.snake.alive :
             self.apple_counter = 0 
+            self.banana_counter = 0 
             self.apple.drop()
             self.snake.respawn()
             self.running = True
 
     def draw_score(self) : 
-        text = "Apple %d"  % self.apple_counter # 这行语句的意思是什么？？
-        self.hightest_score = max(self.hightest_score, self.apple_counter) # 更新最高分
-        self.draw_text(text, ( 0 , 0 ) , (255 , 255, 33)) # 绘画分数
+        text_1 = "Apple %d"  % self.apple_counter # 这行语句的意思是什么？？
+        text_2 = "Banana %d" % self.banana_counter 
+        self.score = self.apple_counter + ( self.banana_counter * 2 )
+        text_3 = "Score : %d " % self.score
+        self.hightest_score = max(self.hightest_score, self.score) # 更新最高分
+        self.draw_text(text_1, ( 0 , 0 ) , (255 , 255, 33)) # 绘画分数
+        self.draw_text(text_2 , (0 , 20 ) , (255 , 255 , 35 ))
+        self.draw_text(text_3 , (0 , 40 ) , (255 , 160 , 100))
          
         if not self.snake.alive:  # 如果这个蛇死了
             self.draw_text("GAME OVER", (SCREEN_WIDTH / 2 - 54, SCREEN_HEIGHT / 2 - 10), (255, 33, 33), WHITE)

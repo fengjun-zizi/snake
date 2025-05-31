@@ -6,6 +6,7 @@ class Snake(object) :
 
     def __init__(self , game):
         self.game = game 
+        self.grow_count = 0 
         self.sound_hit = pygame.mixer.Sound("resources/hit.wav")
         self.sound_eat = pygame.mixer.Sound("resources/eat.wav")
         self.game.add_draw_action(self.draw)
@@ -42,16 +43,28 @@ class Snake(object) :
             if (meeting in self.body or x not in range(COLUMNS) or y not in range(ROWS)) : 
                 self.die()
                 return
-            
+
             if meeting == (self.game.apple.x , self.game.apple.y):
                 self.sound_eat.play()
                 self.game.apple.drop()
                 self.game.apple_counter += 1
-            else : 
-                self.body.pop()
+                self.grow_count += 1
+            elif meeting == (self.game.banana.x , self.game.banana.y ) :
+                self.sound_eat.play()
+                self.game.banana.drop()
+                self.game.banana_counter += 1
+                self.grow_count += 2
+            
+            # 控制是否 pop 尾巴
+            if self.grow_count > 0:
+                self.grow_count -= 1
+            else:
+                if self.body:
+                     self.body.pop()
 
+             # 插入新蛇头
             self.body = [self.head] + self.body
-            self.head = meeting 
+            self.head = meeting
 
     def respawn(self) :
         """重生"""
