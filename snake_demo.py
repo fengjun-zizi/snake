@@ -49,7 +49,7 @@ class MyGame():
         """主循环"""
         while True:
             self.now = pygame.time.get_ticks()
-            self.process_enents()
+            self.process_events()
             if self.running :
                 self.update_gamedata()
             self.update_display()
@@ -68,13 +68,13 @@ class MyGame():
         for event in pygame.event.get() : 
             if event.type == pygame.QUIT :
                 self.quit()
-            elif event.type == pygame.KEYDown : 
+            elif event.type == pygame.KEYDOWN : 
                 action, kwaegs = self.key_bindings.get(event.key  , (None , None ))
                 action (**kwaegs) if kwaegs else action() if action else None
                 
     def update_gamedata(self) : 
         """更新数据游戏"""
-        for action in self.game_actions.values() : 
+        for action in self.game_action.values() : 
             if not action["next_time"] :
                 action["run"]()
             elif self.now >= action["next_time"] :
